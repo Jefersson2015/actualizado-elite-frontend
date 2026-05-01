@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { productoService } from '../services/api';
+import api from '../services/api';
 import '../styles/CrearProducto.css';
 
 function CrearProducto() {
@@ -8,8 +9,12 @@ function CrearProducto() {
     nombre: '',
     descripcion: '',
     precio: '',
-    stock: ''
+    stock: '',
+    categoria: 'hombre'
   });
+  
+  const [archivoImagen, setArchivoImagen] = useState(null);
+  const [previewImagen, setPreviewImagen] = useState(null);
   const [mensaje, setMensaje] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -21,6 +26,19 @@ function CrearProducto() {
     });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setArchivoImagen(file);
+      // Crear preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImagen(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -28,14 +46,32 @@ function CrearProducto() {
       nombre: producto.nombre,
       descripcion: producto.descripcion,
       precio: parseFloat(producto.precio),
-      stock: parseInt(producto.stock)
+      stock: parseInt(producto.stock),
+      categoria: producto.categoria
     };
 
     try {
-      await productoService.crear(productoData);
+      // 1. Crear el producto primero
+      const response = await productoService.crear(productoData);
+      const productoCreado = response.data;
+      
+      // 2. Si hay imagen, subirla
+      if (archivoImagen) {
+        const formData = new FormData();
+        formData.append('imagen', archivoImagen);
+        
+        await api.post(`/productos/${productoCreado.id}/imagen`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+      }
+      
       setMensaje('¡Producto creado exitosamente!');
       setError('');
-      setProducto({ nombre: '', descripcion: '', precio: '', stock: '' });
+      setProducto({ nombre: '', descripcion: '', precio: '', stock: '', categoria: 'hombre' });
+      setArchivoImagen(null);
+      setPreviewImagen(null);
       
       setTimeout(() => {
         navigate('/admin');
@@ -76,6 +112,36 @@ function CrearProducto() {
               onChange={handleChange}
               required
             />
+          </div>
+
+          <div className="form-group">
+            <label>Categoría</label>
+            <select
+              name="categoria"
+              value={producto.categoria}
+              onChange={handleChange}
+              required
+            >
+              <option value="hombre">Hombre</option>
+              <option value="dama">Dama</option>
+              <option value="infantil">Infantil</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Imagen del Producto</label>
+            <input
+              type="file"
+              name="imagen"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="file-input"
+            />
+            
+            {previewImagen && (
+              <div className="imagen-preview">
+                <img src={previewImagen} alt="Preview" />
+              </div>
+            )}
           </div>
 
           <div className="form-group">

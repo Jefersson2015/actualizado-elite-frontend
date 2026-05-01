@@ -1,17 +1,21 @@
 import React from 'react';
 import { agregarAlCarrito } from '../services/carritoService';
 import '../styles/ProductoCard.css';
-// Función para obtener imagen según el nombre del producto
-const obtenerImagen = (nombre) => {
-  // ✅ VALIDACIÓN: Si nombre es null/undefined, retornar placeholder
-  if (!nombre) {
-    return 'https://via.placeholder.com/300x250?text=Producto';
+
+// Función para obtener la URL de la imagen
+const obtenerUrlImagen = (producto) => {
+  // 1. Si el producto tiene imagen subida, usarla
+  if (producto.imagen) {
+    // Si ya es URL completa, dejarla. Si es ruta relativa (/uploads/...), agregar el host del backend
+    return producto.imagen.startsWith('http')
+      ? producto.imagen
+      : `http://localhost:8080${producto.imagen}`;
   }
-  
-  // Convertir a minúsculas para comparar mejor
+
+  // 2. Fallback: Generar imagen por nombre si no hay imagen subida
+  const nombre = producto.nombre || '';
   const nombreLower = nombre.toLowerCase();
-  
-  // Buscar coincidencias con marcas/modelos
+
   if (nombreLower.includes('nike')) {
     return 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=250&fit=crop';
   }
@@ -33,13 +37,13 @@ const obtenerImagen = (nombre) => {
   if (nombreLower.includes('converse')) {
     return 'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=300&h=250&fit=crop';
   }
-  
+
   // Imagen por defecto si no coincide con ninguna marca
   return 'https://via.placeholder.com/300x250?text=Producto';
 };
 
 function ProductoCard({ producto }) {
-  // ✅ VALIDACIÓN: Si producto es null, no renderizar nada
+  // Validación defensiva
   if (!producto) {
     return null;
   }
@@ -52,7 +56,7 @@ function ProductoCard({ producto }) {
   return (
     <div className="producto-card">
       <img 
-        src={obtenerImagen(producto.nombre)} 
+        src={obtenerUrlImagen(producto)} 
         alt={producto.nombre || 'Producto'}
         className="producto-imagen"
         onError={(e) => {
@@ -61,10 +65,8 @@ function ProductoCard({ producto }) {
         }}
       />
       <div className="producto-info">
-        {/* ✅ VALIDACIÓN: Si nombre es null, mostrar 'Sin nombre' */}
         <h3 className="producto-nombre">{producto.nombre || 'Sin nombre'}</h3>
         
-        {/* ✅ VALIDACIÓN: Si precio es null, mostrar '0' */}
         <p className="producto-precio">
           ${producto.precio ? producto.precio.toLocaleString() : '0'} COP
         </p>
@@ -74,7 +76,7 @@ function ProductoCard({ producto }) {
         <div className="producto-buttons">
           <button className="btn-ver">Ver producto</button>
           <button className="btn-carrito" onClick={handleAgregarCarrito}>
-            🛒 Agregar
+             Agregar
           </button>
         </div>
       </div>

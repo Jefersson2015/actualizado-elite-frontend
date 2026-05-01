@@ -8,15 +8,17 @@ function AdminDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Verificar si es admin
-    const usuario = JSON.parse(localStorage.getItem('usuario'));
-    if (!usuario || usuario.rol !== 'admin') {
-      alert('Acceso denegado. Solo administradores.');
-      navigate('/');
-      return;
-    }
-    cargarProductos();
-  }, [navigate]);
+  // Verificar si es admin
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  
+  if (!usuario || usuario.roll !== 'admin') {
+    alert('Acceso denegado. Solo administradores.');
+    navigate('/');
+    return;
+  }
+  
+  cargarProductos();
+}, [navigate]);
 
   const cargarProductos = async () => {
     try {

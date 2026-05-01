@@ -4,7 +4,11 @@ import { usuarioService } from '../services/api';
 import '../styles/Auth.css';
 
 function Register() {
-  const [formData, setFormData] = useState({ username: '', password: '', rol: 'cliente' });
+  const [formData, setFormData] = useState({ 
+  username: '', 
+  password: '', 
+  roll: 'cliente'
+});
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {

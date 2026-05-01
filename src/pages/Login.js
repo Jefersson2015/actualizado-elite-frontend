@@ -16,8 +16,8 @@ function Login() {
       // Guardar usuario en localStorage
       localStorage.setItem('usuario', JSON.stringify(response.data));
       
-      // Redirigir según el rol
-      if (response.data.rol === 'admin') {
+      // 🔧 CORRECCIÓN: Cambiar 'rol' por 'roll' (coincide con Java)
+      if (response.data.roll === 'admin') {  // ✅ Antes: response.data.rol
         navigate('/admin');
       } else {
         navigate('/');
@@ -26,6 +26,7 @@ function Login() {
       alert('Credenciales inválidas');
     }
   } catch (error) {
+    console.error('Error login:', error);
     alert('Error al iniciar sesión');
   }
 };
