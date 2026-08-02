@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { usuarioService } from '../services/api';
+import { useToast } from '../context/ToastContext';
 import '../styles/Auth.css';
 
 function Login() {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -23,11 +25,11 @@ function Login() {
         navigate('/');
       }
     } else {
-      alert('Credenciales inválidas');
+      showToast('Credenciales inválidas', 'error');
     }
   } catch (error) {
     console.error('Error login:', error);
-    alert('Error al iniciar sesión');
+    showToast('Error al iniciar sesión', 'error');
   }
 };
 

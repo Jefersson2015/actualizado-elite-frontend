@@ -13,9 +13,15 @@ function Navbar() {
     
     actualizarContador();
     
-    // Escuchar cambios en localStorage
+    // Escuchar cambios en localStorage (solo detecta cambios desde OTRA pestaña)
     window.addEventListener('storage', actualizarContador);
-    return () => window.removeEventListener('storage', actualizarContador);
+    // Escuchar nuestro evento propio (detecta cambios en ESTA misma pestaña)
+    window.addEventListener('carritoActualizado', actualizarContador);
+
+    return () => {
+      window.removeEventListener('storage', actualizarContador);
+      window.removeEventListener('carritoActualizado', actualizarContador);
+    };
   }, []);
 
   return (

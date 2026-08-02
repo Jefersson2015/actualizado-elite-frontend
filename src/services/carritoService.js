@@ -4,6 +4,15 @@
 // Clave para guardar en localStorage
 const CART_KEY = 'elite_carrito';
 
+// Nombre del evento personalizado que avisa "el carrito cambió"
+const EVENTO_CARRITO = 'carritoActualizado';
+
+// Avisa a toda la app (incluyendo el Navbar) que el carrito cambió,
+// sin necesidad de refrescar la página.
+const avisarCambio = () => {
+  window.dispatchEvent(new Event(EVENTO_CARRITO));
+};
+
 // Obtener carrito actual
 export const getCarrito = () => {
   const carrito = localStorage.getItem(CART_KEY);
@@ -27,6 +36,7 @@ export const agregarAlCarrito = (producto) => {
   
   // Guardar en localStorage
   localStorage.setItem(CART_KEY, JSON.stringify(carrito));
+  avisarCambio();
   
   // Retornar el carrito actualizado
   return getCarrito();
@@ -37,12 +47,14 @@ export const eliminarDelCarrito = (id) => {
   const carrito = getCarrito();
   const carritoActualizado = carrito.filter(item => item.id !== id);
   localStorage.setItem(CART_KEY, JSON.stringify(carritoActualizado));
+  avisarCambio();
   return carritoActualizado;
 };
 
 // Vaciar carrito completo
 export const vaciarCarrito = () => {
   localStorage.removeItem(CART_KEY);
+  avisarCambio();
   return [];
 };
 

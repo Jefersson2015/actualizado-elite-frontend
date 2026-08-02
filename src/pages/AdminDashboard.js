@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { productoService } from '../services/api';
+import { useToast } from '../context/ToastContext';
 import '../styles/AdminDashboard.css';
 
 function AdminDashboard() {
   const [productos, setProductos] = useState([]);
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   useEffect(() => {
   // Verificar si es admin
   const usuario = JSON.parse(localStorage.getItem('usuario'));
   
   if (!usuario || usuario.roll !== 'admin') {
-    alert('Acceso denegado. Solo administradores.');
+    showToast('Acceso denegado. Solo administradores.', 'error');
     navigate('/');
     return;
   }
@@ -34,10 +36,10 @@ function AdminDashboard() {
 if (confirm('¿Seguro que desea eliminar este producto?')) {
       try {
         await productoService.eliminar(id);
-        alert('Producto eliminado');
+        showToast('Producto eliminado', 'success');
         cargarProductos();
       } catch (error) {
-        alert('Error al eliminar');
+        showToast('Error al eliminar', 'error');
       }
     }
   };

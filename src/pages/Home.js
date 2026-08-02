@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { productoService } from '../services/api';
 import hombreImg from '../images/hombre/nike-p6000-hombre.jpeg'
 import damaImg from '../images/dama/nike-p6000-dama.jpeg'
@@ -48,23 +49,24 @@ function Home() {
       {/* Sección de Categorías */}
       <section className="categorias">
         <div className="container">
+          <p className="section-label">Explora</p>
           <h2>Categorías</h2>
             <div className="categorias-grid"> 
             {/* Categoría Hombre */}
-              <a href="/hombre" className="categoria-card">
+              <Link to="/hombre" className="categoria-card">
   <img src={hombreImg} alt="Calzado hombre" />
   <div className="overlay"><span>HOMBRE</span></div>
-</a>
+</Link>
             {/* Categoría Dama */}
-<a href="/dama" className="categoria-card">
+<Link to="/dama" className="categoria-card">
   <img src={damaImg} alt="Calzado dama" />
   <div className="overlay"><span>DAMA</span></div>
-</a>
+</Link>
             {/* Categoría Infantil */}
-<a href="/infantil" className="categoria-card">
+<Link to="/infantil" className="categoria-card">
   <img src={infantilImg} alt="Calzado infantil" />
   <div className="overlay"><span>INFANTIL</span></div>
-  </a>
+  </Link>
             </div>
         </div>
       </section>

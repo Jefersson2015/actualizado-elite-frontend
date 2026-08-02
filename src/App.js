@@ -17,6 +17,8 @@ import Carrito from './pages/Carrito';
 import AdminDashboard from './pages/AdminDashboard';
 import CrearProducto from './pages/CrearProducto';
 import Categoria from './pages/Categoria';
+import { ToastProvider } from './context/ToastContext';
+import Toast from './components/Toast';
 import './styles/App.css';
 /**
  * Componente principal App
@@ -26,8 +28,11 @@ import './styles/App.css';
 
 function App() {
   return (
+    <ToastProvider>
     <Router>
       <div className="App">
+        {/* Notificación tipo toast, visible en toda la app, no bloquea la pantalla */}
+        <Toast />
         {/* Barra de navegación visible en todas las páginas */}
         <Navbar />
 
@@ -50,6 +55,7 @@ function App() {
         <Footer />
       </div>
     </Router>
+    </ToastProvider>
   );
 }
 

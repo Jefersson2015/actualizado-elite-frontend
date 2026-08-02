@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { usuarioService } from '../services/api';
+import { useToast } from '../context/ToastContext';
 import '../styles/Auth.css';
 
 function Register() {
@@ -10,15 +11,16 @@ function Register() {
   roll: 'cliente'
 });
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await usuarioService.registrar(formData);
-      alert('¡Registro exitoso!');
+      showToast('¡Registro exitoso!', 'success');
       navigate('/login');
     } catch (error) {
-      alert('Error al registrar');
+      showToast('Error al registrar', 'error');
     }
   };
 

@@ -7,11 +7,13 @@ import {
   calcularTotal 
 } from '../services/carritoService';
 import { pedidoService } from '../services/api';
+import ConfirmModal from '../components/ConfirmModal';
 import '../styles/Carrito.css';
 
 function Carrito() {
   const [carrito, setCarrito] = useState([]);
   const [total, setTotal] = useState(0);
+  const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const navigate = useNavigate();
 
   // Cargar carrito al iniciar
@@ -32,12 +34,20 @@ function Carrito() {
   };
 
   const handleVaciar = () => {
-    // eslint-disable-next-line no-restricted-globals
-    if (confirm('¿Seguro que deseas vaciar el carrito?')) {
-      vaciarCarrito();
-      setCarrito([]);
-      setTotal(0);
-    }
+    // En vez de bloquear con el confirm() nativo del navegador,
+    // mostramos nuestro propio modal de confirmación
+    setMostrarConfirmacion(true);
+  };
+
+  const confirmarVaciar = () => {
+    vaciarCarrito();
+    setCarrito([]);
+    setTotal(0);
+    setMostrarConfirmacion(false);
+  };
+
+  const cancelarVaciar = () => {
+    setMostrarConfirmacion(false);
   };
 
   const handleComprar = async () => {
@@ -154,6 +164,14 @@ function Carrito() {
           </div>
         </div>
       )}
+
+      <ConfirmModal
+        visible={mostrarConfirmacion}
+        titulo="Vaciar carrito"
+        mensaje="¿Seguro que deseas vaciar el carrito? Esta acción no se puede deshacer."
+        onConfirm={confirmarVaciar}
+        onCancel={cancelarVaciar}
+      />
     </div>
   );
 }

@@ -32,6 +32,8 @@ Tecnología
 - Eliminación de productos
 - Visualización de inventario
 - Gestión de stock
+- User admin: admin@eliteshoes.com
+- Contraseña: admin123
 
 ---
 

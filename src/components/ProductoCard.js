@@ -1,5 +1,6 @@
 import React from 'react';
 import { agregarAlCarrito } from '../services/carritoService';
+import { useToast } from '../context/ToastContext';
 import '../styles/ProductoCard.css';
 
 // Función para obtener la URL de la imagen
@@ -43,6 +44,8 @@ const obtenerUrlImagen = (producto) => {
 };
 
 function ProductoCard({ producto }) {
+  const { showToast } = useToast();
+
   // Validación defensiva
   if (!producto) {
     return null;
@@ -50,7 +53,7 @@ function ProductoCard({ producto }) {
 
   const handleAgregarCarrito = () => {
     agregarAlCarrito(producto);
-    alert(`✅ ${producto.nombre || 'Producto'} agregado al carrito`);
+    showToast(`${producto.nombre || 'Producto'} agregado al carrito`, 'success');
   };
 
   return (
