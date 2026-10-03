@@ -1,0 +1,168 @@
+.detalle-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  min-height: 70vh;
+}
+
+.detalle-cargando {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.detalle-vacio {
+  text-align: center;
+  padding-top: 4rem;
+}
+
+.btn-volver-link {
+  background: none;
+  border: none;
+  color: #1E3A8A;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  padding: 0;
+}
+
+.btn-volver-link:hover {
+  text-decoration: underline;
+}
+
+.btn-volver {
+  display: inline-block;
+  margin-top: 1rem;
+  background-color: #1E3A8A;
+  color: white;
+  padding: 0.7rem 1.4rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.detalle-card {
+  display: flex;
+  gap: 2.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+}
+
+.detalle-imagen-wrap {
+  flex: 1 1 420px;
+  min-width: 0;
+}
+
+.detalle-imagen {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.detalle-info {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.detalle-nombre {
+  font-size: 1.8rem;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+}
+
+.detalle-precio {
+  color: #F97316;
+  font-weight: bold;
+  font-size: 1.6rem;
+  margin: 0 0 1.2rem 0;
+}
+
+.detalle-descripcion {
+  color: #555;
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+}
+
+.detalle-tallas {
+  margin-bottom: 1.5rem;
+}
+
+.detalle-tallas-label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.detalle-tallas-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.talla-pill {
+  min-width: 44px;
+  padding: 0.5rem 0.7rem;
+  border: 1.5px solid #ccc;
+  background: white;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.talla-pill:hover {
+  border-color: #1E3A8A;
+}
+
+.talla-pill-activa {
+  border-color: #1E3A8A;
+  background-color: #1E3A8A;
+  color: white;
+}
+
+.detalle-stock {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-agregar-detalle {
+  align-self: flex-start;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 0.9rem 2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-agregar-detalle:hover {
+  background-color: #218838;
+}
+
+.btn-agregar-detalle:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+  .detalle-card {
+    flex-direction: column;
+    padding: 1.2rem;
+  }
+
+  .detalle-imagen {
+    height: 280px;
+  }
+}

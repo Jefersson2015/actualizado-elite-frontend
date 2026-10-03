@@ -31,6 +31,7 @@ api.interceptors.request.use(
 
 export const productoService = {
   listarTodos: () => api.get('/productos'),
+  obtenerPorId: (id) => api.get(`/productos/${id}`),
   crear: (producto) => api.post('/productos', producto),
   eliminar: (id) => api.delete(`/productos/${id}`),
 };

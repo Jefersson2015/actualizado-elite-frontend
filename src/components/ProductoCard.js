@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { agregarAlCarrito } from '../services/carritoService';
 import { useToast } from '../context/ToastContext';
 import '../styles/ProductoCard.css';
@@ -45,6 +46,7 @@ const obtenerUrlImagen = (producto) => {
 
 function ProductoCard({ producto }) {
   const { showToast } = useToast();
+  const navigate = useNavigate();
 
   // Validación defensiva
   if (!producto) {
@@ -54,6 +56,10 @@ function ProductoCard({ producto }) {
   const handleAgregarCarrito = () => {
     agregarAlCarrito(producto);
     showToast(`${producto.nombre || 'Producto'} agregado al carrito`, 'success');
+  };
+
+  const handleVerProducto = () => {
+    navigate(`/producto/${producto.id}`);
   };
 
   return (
@@ -77,7 +83,7 @@ function ProductoCard({ producto }) {
         <p className="producto-stock">Stock: {producto.stock || 0}</p>
         
         <div className="producto-buttons">
-          <button className="btn-ver">Ver producto</button>
+          <button className="btn-ver" onClick={handleVerProducto}>Ver producto</button>
           <button className="btn-carrito" onClick={handleAgregarCarrito}>
              Agregar
           </button>

@@ -10,7 +10,8 @@ function CrearProducto() {
     descripcion: '',
     precio: '',
     stock: '',
-    categoria: 'hombre'
+    categoria: 'hombre',
+    tallas: ''
   });
   
   const [archivoImagen, setArchivoImagen] = useState(null);
@@ -47,7 +48,8 @@ function CrearProducto() {
       descripcion: producto.descripcion,
       precio: parseFloat(producto.precio),
       stock: parseInt(producto.stock),
-      categoria: producto.categoria
+      categoria: producto.categoria,
+      tallas: producto.tallas
     };
 
     try {
@@ -69,7 +71,7 @@ function CrearProducto() {
       
       setMensaje('¡Producto creado exitosamente!');
       setError('');
-      setProducto({ nombre: '', descripcion: '', precio: '', stock: '', categoria: 'hombre' });
+      setProducto({ nombre: '', descripcion: '', precio: '', stock: '', categoria: 'hombre', tallas: '' });
       setArchivoImagen(null);
       setPreviewImagen(null);
       
@@ -167,6 +169,17 @@ function CrearProducto() {
               onChange={handleChange}
               required
               min="0"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Tallas disponibles</label>
+            <input
+              type="text"
+              name="tallas"
+              placeholder="Ej: 38, 39, 40, 41, 42"
+              value={producto.tallas}
+              onChange={handleChange}
             />
           </div>
 
