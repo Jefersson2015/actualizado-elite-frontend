@@ -51,7 +51,7 @@ Tecnología
 git clone https://github.com/Jefersson2015/elite-frontend.git
 
 # 2. Navegar a la carpeta del proyecto
-cd elite-frontend
+cd actualizado-elite-frontend
 
 # 3. Instalar dependencias
 npm install

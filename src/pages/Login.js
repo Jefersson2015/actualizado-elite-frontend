@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { usuarioService } from '../services/api';
 import { useToast } from '../context/ToastContext';
+import { guardarUsuario } from '../utils/auth';
 import '../styles/Auth.css';
 
 function Login() {
@@ -15,8 +16,8 @@ function Login() {
     const response = await usuarioService.login(credentials);
     
     if (response.data) {
-      // Guardar usuario en localStorage
-      localStorage.setItem('usuario', JSON.stringify(response.data));
+      // Guardar usuario y avisar a toda la app (ej. el Navbar) que la sesión cambió
+      guardarUsuario(response.data);
       
       // 🔧 CORRECCIÓN: Cambiar 'rol' por 'roll' (coincide con Java)
       if (response.data.roll === 'admin') {  // ✅ Antes: response.data.rol

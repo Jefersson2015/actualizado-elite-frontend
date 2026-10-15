@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { productoService } from '../services/api';
 import { useToast } from '../context/ToastContext';
+import { cerrarSesion as cerrarSesionGlobal } from '../utils/auth';
 import '../styles/AdminDashboard.css';
 
 function AdminDashboard() {
@@ -45,7 +46,7 @@ if (confirm('¿Seguro que desea eliminar este producto?')) {
   };
 
   const cerrarSesion = () => {
-    localStorage.removeItem('usuario');
+    cerrarSesionGlobal();
     navigate('/login');
   };
 
