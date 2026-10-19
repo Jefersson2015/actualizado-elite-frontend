@@ -1,0 +1,142 @@
+.ap-page {
+  min-height: 100vh;
+  background: #f5f7fa;
+  padding: 2rem;
+}
+
+.ap-header {
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ap-header h1 {
+  color: #1E3A8A;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.ap-btn-volver {
+  padding: 0.7rem 1.3rem;
+  background: white;
+  color: #1E3A8A;
+  border: 1.5px solid #1E3A8A;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ap-btn-volver:hover {
+  background: #e8eefc;
+}
+
+.ap-contenido {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ap-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.ap-filtro {
+  padding: 0.5rem 1.1rem;
+  border: 1.5px solid #1E3A8A;
+  background: white;
+  color: #1E3A8A;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.ap-filtro-activo {
+  background: #1E3A8A;
+  color: white;
+}
+
+.ap-mensaje {
+  text-align: center;
+  color: #666;
+  padding: 3rem 1rem;
+}
+
+.ap-tabla-wrap {
+  overflow-x: auto;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ap-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ap-tabla th,
+.ap-tabla td {
+  padding: 0.9rem 1rem;
+  border: 1px solid #ddd;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.ap-tabla th {
+  background: #1E3A8A;
+  color: white;
+}
+
+.ap-estado {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.ap-estado-pendiente { background: #fff3cd; color: #856404; }
+.ap-estado-pagado { background: #d1ecf1; color: #0c5460; }
+.ap-estado-enviado { background: #e2d9f3; color: #4a2c82; }
+.ap-estado-entregado { background: #d4edda; color: #155724; }
+.ap-estado-cancelado { background: #f8d7da; color: #721c24; }
+
+.ap-select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.95rem;
+}
+
+.ap-select:disabled {
+  background: #eee;
+  cursor: not-allowed;
+}
+
+.ap-btn-detalle {
+  padding: 0.4rem 0.9rem;
+  background: #1E3A8A;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ap-btn-detalle:hover {
+  background: #152a6b;
+}
+
+.ap-fila-detalle td {
+  background: #f8f9fc;
+  white-space: normal;
+}
+
+.ap-lista-detalle {
+  margin: 0;
+  padding-left: 1.2rem;
+  line-height: 1.8;
+}

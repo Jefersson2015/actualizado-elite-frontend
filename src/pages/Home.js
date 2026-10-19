@@ -8,6 +8,9 @@ import '../styles/Home.css';
 import ProductoCard from '../components/ProductoCard';
 
 
+// Cuántos productos mostrar en la sección "Productos destacados"
+const CANTIDAD_DESTACADOS = 6;
+
 function Home() {
   // Estado para almacenar la lista de productos
   const [productos, setProductos] = useState([]);
@@ -83,7 +86,7 @@ function Home() {
             <div className="productos-grid">
             {/* Validar si hay productos disponibles */}
               {productos && productos.length > 0 ? (
-                productos.map((producto, index) => (
+                productos.slice(0, CANTIDAD_DESTACADOS).map((producto, index) => (
                   <ProductoCard key={producto?.id || index} producto={producto} />
                 ))
               ) : (

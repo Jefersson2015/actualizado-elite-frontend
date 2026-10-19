@@ -16,8 +16,10 @@ import Register from './pages/Register';
 import Carrito from './pages/Carrito';
 import AdminDashboard from './pages/AdminDashboard';
 import CrearProducto from './pages/CrearProducto';
+import AdminPedidos from './pages/AdminPedidos';
 import Categoria from './pages/Categoria';
 import ProductoDetalle from './pages/ProductoDetalle';
+import Catalogo from './pages/Catalogo';
 import { ToastProvider } from './context/ToastContext';
 import Toast from './components/Toast';
 import './styles/App.css';
@@ -51,8 +53,14 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           {/* Ruta para crear productos (solo admin) */}
           <Route path="/crear-producto" element={<CrearProducto />} />
+          {/* Ruta para editar productos (solo admin) */}
+          <Route path="/editar-producto/:id" element={<CrearProducto />} />
           {/* Ruta de detalle individual de un producto */}
           <Route path="/producto/:id" element={<ProductoDetalle />} />
+          {/* Ruta de catalogo de protuctos*/}
+          <Route path="/catalogo" element={<Catalogo />} />
+          {/* Ruta de administración de pedidos (solo admin) */}
+          <Route path="/admin/pedidos" element={<AdminPedidos />} />
           {/* Rutas de categorías de productos */}
           <Route path="/:categoria" element={<Categoria />} />
         </Routes>

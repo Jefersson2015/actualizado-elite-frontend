@@ -33,6 +33,7 @@ export const productoService = {
   listarTodos: () => api.get('/productos'),
   obtenerPorId: (id) => api.get(`/productos/${id}`),
   crear: (producto) => api.post('/productos', producto),
+  actualizar: (id, producto) => api.put(`/productos/${id}`, producto),
   eliminar: (id) => api.delete(`/productos/${id}`),
 };
 
@@ -45,6 +46,7 @@ export const pedidoService = {
   crear: (pedido) => api.post('/pedidos', pedido),
   listarTodos: () => api.get('/pedidos'),
   buscarPorId: (id) => api.get(`/pedidos/${id}`),
+  cambiarEstado: (id, estado) => api.put(`/pedidos/${id}/estado`, { estado }),
 };
 
 export default api;

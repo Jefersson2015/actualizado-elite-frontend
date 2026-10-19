@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { productoService } from '../services/api';
 import api from '../services/api';
 import '../styles/CrearProducto.css';
 
+// Esta misma pantalla sirve para CREAR (ruta /crear-producto)
+// y para EDITAR (ruta /editar-producto/:id).
 function CrearProducto() {
+  const { id } = useParams();
+  const modoEdicion = Boolean(id);
+
   const [producto, setProducto] = useState({
     nombre: '',
     descripcion: '',
@@ -13,12 +18,42 @@ function CrearProducto() {
     categoria: 'hombre',
     tallas: ''
   });
-  
+
+  const [imagenActual, setImagenActual] = useState(null);
   const [archivoImagen, setArchivoImagen] = useState(null);
   const [previewImagen, setPreviewImagen] = useState(null);
+  const [cargando, setCargando] = useState(modoEdicion);
   const [mensaje, setMensaje] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  // En modo edición: traer el producto y llenar el formulario
+  useEffect(() => {
+    if (!modoEdicion) return;
+
+    const cargarProducto = async () => {
+      try {
+        const response = await productoService.obtenerPorId(id);
+        const p = response.data;
+        setProducto({
+          nombre: p.nombre || '',
+          descripcion: p.descripcion || '',
+          precio: p.precio ?? '',
+          stock: p.stock ?? '',
+          categoria: p.categoria || 'hombre',
+          tallas: p.tallas || ''
+        });
+        setImagenActual(p.imagen || null);
+      } catch (err) {
+        console.error('Error al cargar el producto:', err);
+        setError('No se pudo cargar el producto');
+      } finally {
+        setCargando(false);
+      }
+    };
+
+    cargarProducto();
+  }, [id, modoEdicion]);
 
   const handleChange = (e) => {
     setProducto({
@@ -40,9 +75,14 @@ function CrearProducto() {
     }
   };
 
+  // URL completa de la imagen que ya tiene el producto
+  const urlImagenActual = imagenActual
+    ? (imagenActual.startsWith('http') ? imagenActual : `http://localhost:8080${imagenActual}`)
+    : null;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const productoData = {
       nombre: producto.nombre,
       descripcion: producto.descripcion,
@@ -52,43 +92,62 @@ function CrearProducto() {
       tallas: producto.tallas
     };
 
+    // IMPORTANTE: el backend reemplaza el producto completo al actualizar.
+    // Si no reenviamos la imagen actual, el producto se quedaría sin foto.
+    if (modoEdicion) {
+      productoData.imagen = imagenActual;
+    }
+
     try {
-      // 1. Crear el producto primero
-      const response = await productoService.crear(productoData);
-      const productoCreado = response.data;
-      
-      // 2. Si hay imagen, subirla
+      // 1. Crear o actualizar el producto
+      const response = modoEdicion
+        ? await productoService.actualizar(id, productoData)
+        : await productoService.crear(productoData);
+      const productoGuardado = response.data;
+
+      // 2. Si eligió una imagen nueva, subirla
       if (archivoImagen) {
         const formData = new FormData();
         formData.append('imagen', archivoImagen);
-        
-        await api.post(`/productos/${productoCreado.id}/imagen`, formData, {
+
+        await api.post(`/productos/${productoGuardado.id}/imagen`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
       }
-      
-      setMensaje('¡Producto creado exitosamente!');
+
+      setMensaje(modoEdicion ? '¡Producto actualizado exitosamente!' : '¡Producto creado exitosamente!');
       setError('');
-      setProducto({ nombre: '', descripcion: '', precio: '', stock: '', categoria: 'hombre', tallas: '' });
-      setArchivoImagen(null);
-      setPreviewImagen(null);
-      
+
+      if (!modoEdicion) {
+        setProducto({ nombre: '', descripcion: '', precio: '', stock: '', categoria: 'hombre', tallas: '' });
+        setArchivoImagen(null);
+        setPreviewImagen(null);
+      }
+
       setTimeout(() => {
         navigate('/admin');
-      }, 2000);
+      }, 1500);
     } catch (error) {
       console.error('Error:', error);
-      setError('Error al crear el producto');
+      setError(modoEdicion ? 'Error al actualizar el producto' : 'Error al crear el producto');
     }
   };
+
+  if (cargando) {
+    return (
+      <div className="crear-producto-container">
+        <p>Cargando producto...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="crear-producto-container">
       <div className="crear-producto-card">
-        <h2>Agregar Producto</h2>
-        
+        <h2>{modoEdicion ? 'Editar Producto' : 'Agregar Producto'}</h2>
+
         {mensaje && <div className="mensaje-exito">{mensaje}</div>}
         {error && <div className="mensaje-error">{error}</div>}
 
@@ -130,7 +189,7 @@ function CrearProducto() {
             </select>
           </div>
           <div className="form-group">
-            <label>Imagen del Producto</label>
+            <label>{modoEdicion ? 'Cambiar imagen (opcional)' : 'Imagen del Producto'}</label>
             <input
               type="file"
               name="imagen"
@@ -138,10 +197,10 @@ function CrearProducto() {
               onChange={handleFileChange}
               className="file-input"
             />
-            
-            {previewImagen && (
+
+            {(previewImagen || urlImagenActual) && (
               <div className="imagen-preview">
-                <img src={previewImagen} alt="Preview" />
+                <img src={previewImagen || urlImagenActual} alt="Preview" />
               </div>
             )}
           </div>
@@ -183,7 +242,9 @@ function CrearProducto() {
             />
           </div>
 
-          <button type="submit" className="btn-guardar">Guardar</button>
+          <button type="submit" className="btn-guardar">
+            {modoEdicion ? 'Guardar cambios' : 'Guardar'}
+          </button>
           <button type="button" className="btn-cancelar" onClick={() => navigate('/admin')}>
             Cancelar
           </button>

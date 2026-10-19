@@ -1,0 +1,90 @@
+.catalogo-page {
+  min-height: 100vh;
+}
+
+.catalogo-header {
+  background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+  color: white;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.catalogo-header h1 {
+  font-size: 3rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.catalogo-header p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+.catalogo-contenido {
+  padding: 3rem 0 4rem;
+  background-color: #f5f7fa;
+}
+
+.catalogo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.catalogo-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-bottom: 2rem;
+}
+
+.filtro-btn {
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid #1E3A8A;
+  background: white;
+  color: #1E3A8A;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.filtro-btn:hover {
+  background-color: #e8eefc;
+}
+
+.filtro-btn-activo,
+.filtro-btn-activo:hover {
+  background-color: #1E3A8A;
+  color: white;
+}
+
+.catalogo-conteo {
+  text-align: center;
+  color: #666;
+  margin: 0 0 1.5rem 0;
+}
+
+.catalogo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.catalogo-mensaje {
+  text-align: center;
+  color: #666;
+  font-size: 1.1rem;
+  padding: 3rem 1rem;
+}
+
+@media (max-width: 600px) {
+  .catalogo-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .catalogo-container {
+    padding: 0 1rem;
+  }
+}
